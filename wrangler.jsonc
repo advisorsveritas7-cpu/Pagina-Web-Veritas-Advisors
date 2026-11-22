@@ -1,8 +1,0 @@
-{
-  // Cloudflare Workers: publica la página estática (index.html) sin código de servidor.
-  "name": "pagina-web-veritas-advisors",
-  "compatibility_date": "2026-11-01",
-  "assets": {
-    "directory": "."
-  }
-}

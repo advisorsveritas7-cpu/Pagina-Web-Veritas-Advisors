@@ -426,9 +426,8 @@ footer{padding-block:40px 28px;border-top:1px solid var(--line);font-size:14px;c
             <a class="wa" href="https://wa.me/51980990574" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></div>
         </div>
       </div>
-      <form id="demoForm" name="solicitud" method="POST" data-netlify="true" netlify-honeypot="empresa_web" novalidate>
-        <input type="hidden" name="form-name" value="solicitud">
-        <p class="hp"><label>No llenar<input name="empresa_web" tabindex="-1" autocomplete="off"></label></p>
+      <form id="demoForm" name="solicitud" novalidate>
+        <p class="hp"><label>No llenar<input name="_honey" tabindex="-1" autocomplete="off"></label></p>
         <h2 style="font-size:24px" id="formTitle">Solicita tu prueba gratis, demo o cotización</h2>
         <p style="color:var(--muted);font-size:15px">Te contactamos en menos de 24 horas hábiles.</p>
         <div class="row">
@@ -596,8 +595,13 @@ document.getElementById('demoForm').addEventListener('submit',async e=>{e.preven
   document.getElementById('formMail').href='mailto:informes@veritas-advisors.net?subject='+encodeURIComponent(`${data.get('tipo')} - ${data.get('programa')}`)+'&body='+encodeURIComponent(texto);
   document.getElementById('formWa').href=waLink(`Hola Veritas Advisors, quiero ${String(data.get('tipo')).toLowerCase()} de ${data.get('programa')}.\n${texto}`);
   try{
-    const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()});
-    if(!r.ok)throw new Error(r.status);
+    if(data.get('_honey'))return;
+    const body=Object.fromEntries(data);
+    body._subject=`${data.get('tipo')} - ${data.get('programa')} - ${data.get('nombre')}`;
+    body._replyto=data.get('correo');body._template='table';body._captcha='false';
+    const r=await fetch(FORM_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||String(j.success)==='false')throw new Error(j.message||r.status);
     ok.hidden=false;f.reset();
   }catch(_){err.hidden=false}
   btn.disabled=false});
@@ -623,6 +627,9 @@ const PRUEBAS=[
 ];
 const TRIAL_IDS=['planillas','gasmapa','contable','gestion','suite'];
 const WA_NUM='51980990574';
+/* Formulario: las solicitudes llegan por correo a informes@ mediante FormSubmit (formsubmit.co).
+   La primera solicitud manda un correo de activación a esa casilla: hay que confirmarlo una sola vez. */
+const FORM_URL='https://formsubmit.co/ajax/informes@veritas-advisors.net';
 const waLink=t=>`https://wa.me/${WA_NUM}?text=${encodeURIComponent(t)}`;
 const progName=id=>(PRUEBAS.find(x=>x.id===id)||PRODUCTS.find(x=>x.id===id)||{}).programa||(PRODUCTS.find(x=>x.id===id)||{}).name||id;
 function pedirPrueba(id){

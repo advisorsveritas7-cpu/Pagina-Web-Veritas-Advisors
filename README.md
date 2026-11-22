@@ -1,6 +1,6 @@
 # Página web de Veritas Advisors
 
-Sitio estático (un solo archivo `index.html`) publicado en Netlify.
+Sitio estático (un solo archivo `index.html`) publicado en DigitalOcean App Platform. Cada cambio que entra a `main` se publica solo (`.do/app.yaml`).
 
 ## Prueba gratuita
 
@@ -10,7 +10,7 @@ Sitio estático (un solo archivo `index.html`) publicado en Netlify.
   - `https://veritas-advisors.net/?prueba=gasmapa`
   - `https://veritas-advisors.net/?prueba=contable`
   - `https://veritas-advisors.net/?prueba=gestion`
-- El formulario usa **Netlify Forms** (nombre `solicitud`). Las solicitudes aparecen en Netlify → *Forms*. Para recibirlas por correo: *Site configuration → Forms → Form notifications → Email notification* → `informes@veritas-advisors.net`.
+- El formulario envía cada solicitud por correo a `informes@veritas-advisors.net` mediante [FormSubmit](https://formsubmit.co) (constante `FORM_URL`). La primera vez llega a esa casilla un correo de activación: hay que abrirlo y confirmar una sola vez.
 - Si el envío falla, el cliente ve enlaces para mandar la solicitud por correo o WhatsApp (980 990 574).
 
 ## Qué editar en `index.html`
