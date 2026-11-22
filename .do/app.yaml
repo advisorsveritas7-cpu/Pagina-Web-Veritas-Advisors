@@ -1,0 +1,12 @@
+# DigitalOcean App Platform: sitio estático que se publica solo al subir cambios a main.
+name: pagina-web-veritas-advisors
+region: nyc
+static_sites:
+  - name: web
+    github:
+      repo: advisorsveritas7-cpu/Pagina-Web-Veritas-Advisors
+      branch: main
+      deploy_on_push: true
+    source_dir: /
+    index_document: index.html
+    error_document: index.html
