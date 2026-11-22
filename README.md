@@ -15,6 +15,6 @@ Sitio estático (un solo archivo `index.html`) publicado en DigitalOcean App Pla
 
 ## Qué editar en `index.html`
 
-- `SISTEMAS`: dirección (`url`) de cada sistema para el botón **Ingresar**. GasMapa aún no tiene `url`.
+- `SISTEMAS`: dirección (`url`) de cada sistema para el botón **Ingresar**. GasMapa usa la dirección principal de su sitio en Netlify.
 - `PRUEBAS`: programas con prueba, días de prueba y si ya están `enLinea`.
 - `PRECIOS_URL`: enlace CSV de la hoja de Google con los precios.
